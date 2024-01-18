@@ -1,7 +1,12 @@
 {
     "objectscript.conn": {
-        "active": true,
-        "server": "iris-local",
-        "ns": "BOOTCAMP-ENERO-2024"
-    }
+      "active": true,
+      "server": "iris-local",
+      "ns": "BOOTCAMP-ENERO-2024",
+      "links": {
+        "$(terminal) WebTerminal": "${serverUrl}/terminal/?ns=${ns}${serverAuth}",
+        "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}"
+      }
+    },
+    "explorer.compactFolders": false
 }
