@@ -27,7 +27,7 @@ Method nuevoPaciente(nombre As %String, apellidos As %String, email As %String) 
 }
 
 /// Método que obtiene los datos de un paciente a partir de su ID
-Method obtenerPaciente(idPaciente As %Integer) As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse [ WebMethod ]
+Method buscarPacientePorID(idPaciente As %Integer) As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse [ WebMethod ]
 {
 	#dim req As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest
 	#dim rsp As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse

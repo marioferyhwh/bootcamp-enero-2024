@@ -25,7 +25,7 @@ Method nuevoPaciente(pRequest As cysnet.clinicaDental.agenda.msg.NuevoPacienteRe
 }
 
 /// Método que obtiene los datos de un paciente a partir de su ID
-Method obtenerPaciente(pRequest As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse) As %Status
+Method buscarPacientePorID(pRequest As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse) As %Status
 {
     Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse).%New()
 
@@ -57,7 +57,7 @@ XData MessageMap
         <Method>nuevoPaciente</Method>
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest">
-        <Method>obtenerPaciente</Method>
+        <Method>buscarPacientePorID</Method>
     </MapItem>
 
 </MapItems>
