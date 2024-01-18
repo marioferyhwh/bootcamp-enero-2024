@@ -3,6 +3,8 @@ Class cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse Extends (Ens.R
 
 Property idPaciente As %Integer;
 
+Property mensaje As %String(MAXLEN = "");
+
 Storage Default
 {
 <Data name="BuscarPacientePorIDResponseDefaultData">
@@ -24,6 +26,9 @@ Storage Default
 </Value>
 <Value name="6">
 <Value>nombre</Value>
+</Value>
+<Value name="7">
+<Value>mensaje</Value>
 </Value>
 </Data>
 <DefaultData>BuscarPacientePorIDResponseDefaultData</DefaultData>

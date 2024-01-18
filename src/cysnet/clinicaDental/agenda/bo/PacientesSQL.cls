@@ -29,19 +29,22 @@ Method obtenerPaciente(pRequest As cysnet.clinicaDental.agenda.msg.BuscarPacient
 {
     Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse).%New()
 
+    $$$LOGINFO(pRequest.idPaciente)
+
     Set stm = ##class(%SQL.Statement).%New()
-    Do stm.%Prepare("SELECT nombre, apellidos, email, baja, permiteNotificaciones FROM cysnet.clinicaDental.agenda.data.Pacientes WHERE ID = "_pRequest.idPaciente)
+    Do stm.%Prepare("SELECT ID, nombre, apellidos, email, baja, permiteNotificaciones FROM cysnet_clinicaDental_agenda_data.Pacientes WHERE ID = "_pRequest.idPaciente)
 
     Set rs = stm.%Execute()
 
     If (rs.%Next()) {
+        Set pResponse.idPaciente = rs.ID
         Set pResponse.nombre = rs.nombre
         Set pResponse.apellidos = rs.apellidos
         Set pResponse.email = rs.email
         Set pResponse.baja = rs.baja
         Set pResponse.permiteNotificaciones = rs.permiteNotificaciones
     } Else {
-        Set pResponse.mensaje = "No existen datos para ese identificador ("_pRequest.idPersona_")"
+        Set pResponse.mensaje = "No existen datos para ese identificador ("_pRequest.idPaciente_")"
     }
     
     Quit $$$OK
