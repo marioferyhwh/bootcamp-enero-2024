@@ -2,7 +2,7 @@ Class cysnet.clinicaDental.agenda.bo.CitasSQL Extends Ens.BusinessOperation
 {
 
 /// Método para cancelar una cita
-Method cancelarCita(pRequest As cysnet.clinicaDental.agenda.msg.ModificarCitaRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.CancelarCitaResponse) As %Status
+Method cancelarCita(pRequest As cysnet.clinicaDental.agenda.msg.CancelarCitaRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.CancelarCitaResponse) As %Status
 {
     set pResponse = ##class(cysnet.clinicaDental.agenda.msg.CancelarCitaResponse).%New()
 
