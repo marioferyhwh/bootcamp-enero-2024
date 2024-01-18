@@ -24,14 +24,35 @@ Method NuevoPaciente(pRequest As cysnet.clinicaDental.agenda.msg.NuevoPacienteRe
   Return $$$OK
 }
 
-// dar de baja pacientep  por id
-
+/// dar de baja pacientep  por id
 Method BajaPaciente(pRequest As cysnet.clinicaDental.agenda.msg.BajaPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.BajaPacienteResponse) As %Status
 {
   Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.BajaPacienteResponse).%New()
   Set pResponse.mensaje = "Se da de baja al ID:"_pRequest.ID
 
   &sql(UPDATE cysnet_clinicaDental_agenda_data.Pacientes  SET baja = 1 where id = :pRequest.ID)
+  Return $$$OK
+}
+
+/// actualizar el paciente
+Method ModificarPaciente(pRequest As cysnet.clinicaDental.agenda.msg.ModificarPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.ModificarPacienteResponse) As %Status
+{
+  #dim stm As %SQL.Statement
+  #dim rs As %SQL.StatementResult
+  
+  Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.ModificarPacienteResponse).%New()
+  
+  Set stm = ##class(%SQL.Statement).%New()
+  Do stm.%Prepare("SELECT ID FROM cysnet_clinicaDental_agenda_data.Pacientes WHERE email = ?  and ID <> ?")
+
+  Set rs = stm.%Execute(pRequest.email,pRequest.ID)
+  If (rs.%Next()) {
+    Set pResponse.mensaje = "El email ya esta en uso"
+  } Else {
+    Set pResponse.mensaje = "Se actualiza ID:"_pRequest.ID
+    
+    &sql(UPDATE cysnet_clinicaDental_agenda_data.Pacientes  SET  apellidos = :pRequest.apellidos, email = :pRequest.email, nombre = :pRequest.nombre, permiteNotificaciones = :pRequest.permiteNotificaciones where id = :pRequest.ID)
+  }
   Return $$$OK
 }
 
@@ -69,6 +90,9 @@ XData MessageMap
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.BajaPacienteRequest">
         <Method>BajaPaciente</Method>
+    </MapItem>
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ModificarPacienteRequest">
+        <Method>ModificarPaciente</Method>
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest">
         <Method>buscarPacientePorID</Method>
