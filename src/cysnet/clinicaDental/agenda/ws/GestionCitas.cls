@@ -23,4 +23,32 @@ Method cancelarCita(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.Cance
 	quit response
 }
 
+Method modificarCita(idCita As %Integer, fechaCita As %TimeStamp) As cysnet.clinicaDental.agenda.msg.ModificarCitaResponse [ WebMethod ]
+{
+    #dim request As cysnet.clinicaDental.agenda.msg.ModificarCitaRequest
+    #dim response As cysnet.clinicaDental.agenda.msg.ModificarCitaResponse
+
+    set request = ##class(cysnet.clinicaDental.agenda.msg.ModificarCitaRequest).%New()
+    set request.idCita = idCita
+    set request.fechaCita = fechaCita
+
+	do ..SendRequestSync("CitasSQL", request, .response)
+	
+	quit response
+}
+
+Method listarCitas(idPaciente As %Integer, mostrarCanceladas As %Boolean) As cysnet.clinicaDental.agenda.msg.ListarCitasResponse [ WebMethod ]
+{
+    #dim request As cysnet.clinicaDental.agenda.msg.ListarCitasRequest
+    #dim response As cysnet.clinicaDental.agenda.msg.ListarCitasResponse
+
+    set request = ##class(cysnet.clinicaDental.agenda.msg.ListarCitasRequest).%New()
+    set request.idPaciente = idPaciente
+    set request.mostrarCanceladas = mostrarCanceladas
+
+	do ..SendRequestSync("CitasSQL", request, .response)
+	
+	quit response
+}
+
 }
