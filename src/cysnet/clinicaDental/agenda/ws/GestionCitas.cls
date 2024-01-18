@@ -16,12 +16,12 @@ Method ObtenerPaciente(idPaciente As %Integer) As cysnet.clinicaDental.agenda.ms
 	#dim req As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest
 	#dim rsp As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse
 	
-	set req = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest).%New()
-	set req.idPersona = idPaciente
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest).%New()
+	Set req.idPersona = idPaciente
 	
-	do ..SendRequestSync("ObtenerPaciente", req, .rsp)
+	Do ..SendRequestSync("ObtenerPaciente", req, .rsp)
 	
-	quit rsp
+	Quit rsp
 }
 
 }
