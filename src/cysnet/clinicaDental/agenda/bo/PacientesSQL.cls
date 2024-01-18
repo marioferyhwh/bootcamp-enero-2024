@@ -2,7 +2,7 @@ Class cysnet.clinicaDental.agenda.bo.PacientesSQL Extends Ens.BusinessOperation
 {
 
 /// Crear un paciente nuevo
-Method nuevoPaciente(pRequest As cysnet.clinicaDental.agenda.msg.NuevoPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.NuevoPacienteResponse) As %Status
+Method NuevoPaciente(pRequest As cysnet.clinicaDental.agenda.msg.NuevoPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.NuevoPacienteResponse) As %Status
 {
   
   #dim stm As %SQL.Statement
@@ -15,12 +15,23 @@ Method nuevoPaciente(pRequest As cysnet.clinicaDental.agenda.msg.NuevoPacienteRe
 
   Set rs = stm.%Execute(pRequest.email)
   If (rs.%Next()) {
-    Set pResponse.mensaje = "ya existe"
+    Set pResponse.mensaje = "Ya existe"
   } Else {
     Set pResponse.mensaje = "Se crea"
     &sql(INSERT INTO cysnet_clinicaDental_agenda_data.Pacientes (apellidos,baja,email,nombre,permiteNotificaciones)
     VALUES (:pRequest.apellidos,0,:pRequest.email,:pRequest.nombre,1))
   }
+  Return $$$OK
+}
+
+// dar de baja pacientep  por id
+
+Method BajaPaciente(pRequest As cysnet.clinicaDental.agenda.msg.BajaPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.BajaPacienteResponse) As %Status
+{
+  Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.BajaPacienteResponse).%New()
+  Set pResponse.mensaje = "Se da de baja al ID:"_pRequest.ID
+
+  &sql(UPDATE cysnet_clinicaDental_agenda_data.Pacientes  SET baja = 1 where id = :pRequest.ID)
   Return $$$OK
 }
 
@@ -54,7 +65,10 @@ XData MessageMap
 {
 <MapItems>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.NuevoPacienteRequest">
-        <Method>nuevoPaciente</Method>
+        <Method>NuevoPaciente</Method>
+    </MapItem>
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.BajaPacienteRequest">
+        <Method>BajaPaciente</Method>
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest">
         <Method>buscarPacientePorID</Method>

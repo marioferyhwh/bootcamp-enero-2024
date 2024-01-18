@@ -11,7 +11,7 @@ Parameter NAMESPACE = "BOOTCAMPENERO24";
 Parameter USECLASSNAMESPACES = 1;
 
 /// Método para crear nuevo paciente
-Method nuevoPaciente(nombre As %String, apellidos As %String, email As %String) As cysnet.clinicaDental.agenda.msg.NuevoPacienteResponse [ WebMethod ]
+Method NuevoPaciente(nombre As %String, apellidos As %String, email As %String) As cysnet.clinicaDental.agenda.msg.NuevoPacienteResponse [ WebMethod ]
 {
 	#dim req As cysnet.clinicaDental.agenda.msg.NuevoPacienteRequest
 	#dim rsp As cysnet.clinicaDental.agenda.msg.NuevoPacienteResponse
@@ -26,6 +26,21 @@ Method nuevoPaciente(nombre As %String, apellidos As %String, email As %String) 
 	Quit rsp
 }
 
+// 
+
+Method BajaPaciente(ID As %Integer) As cysnet.clinicaDental.agenda.msg.BajaPacienteResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.BajaPacienteRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.BajaPacienteResponse
+	
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.BajaPacienteRequest).%New()
+	Set req.ID = ID
+	
+	Do ..SendRequestSync("PacientesSQL", req, .rsp)
+	
+	Quit rsp
+}
+
 /// Método que obtiene los datos de un paciente a partir de su ID
 Method buscarPacientePorID(idPaciente As %Integer) As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse [ WebMethod ]
 {
@@ -34,9 +49,9 @@ Method buscarPacientePorID(idPaciente As %Integer) As cysnet.clinicaDental.agend
 	
 	Set req = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest).%New()
 	Set req.idPaciente = idPaciente
-	
+  
 	Do ..SendRequestSync("PacientesSQL", req, .rsp)
-	
+
 	Quit rsp
 }
 
