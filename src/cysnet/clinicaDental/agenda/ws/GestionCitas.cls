@@ -10,4 +10,18 @@ Parameter NAMESPACE = "BOOTCAMPENERO24";
 /// Se utilizarán namespaces de clases referenciadas en WSDL.
 Parameter USECLASSNAMESPACES = 1;
 
+/// Método que obtiene los datos de un paciente a partir de su ID
+Method ObtenerPaciente(idPaciente As %Integer) As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse
+	
+	set req = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest).%New()
+	set req.idPersona = idPaciente
+	
+	do ..SendRequestSync("ObtenerPaciente", req, .rsp)
+	
+	quit rsp
+}
+
 }
