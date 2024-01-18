@@ -87,7 +87,7 @@ Method altaCitas(pRequest As cysnet.clinicaDental.agenda.msg.AltaCitasRequest, O
 XData MessageMap
 {
 <MapItems>
-    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.CancelarCitaResponse">
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.CancelarCitaRequest">
         <Method>cancelarCita</Method>
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ModificarCitaRequest">
