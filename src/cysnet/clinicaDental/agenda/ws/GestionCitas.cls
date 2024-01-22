@@ -52,4 +52,18 @@ Method ModificarCita(idCita As %Integer, fechaCita As %TimeStamp) As cysnet.clin
 	Quit rsp
 }
 
+Method ListarCitas(idPaciente As %Integer, mostrarCanceladas As %Boolean) As cysnet.clinicaDental.agenda.msg.ListarCitasResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.ListarCitasRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.ListarCitasResponse
+	
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.ListarCitasRequest).%New()
+  Set req.idPaciente = idPaciente
+  Set req.mostrarCanceladas = mostrarCanceladas
+	
+	Do ..SendRequestSync("CitasSQL", req, .rsp)
+	
+	Quit rsp
+}
+
 }

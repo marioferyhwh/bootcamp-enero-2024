@@ -1,4 +1,4 @@
-Class cysnet.clinicaDental.agenda.data.Citas Extends %Persistent
+Class cysnet.clinicaDental.agenda.data.Citas Extends (%Persistent, %XML.Adaptor)
 {
 
 Property idPaciente As %Integer;

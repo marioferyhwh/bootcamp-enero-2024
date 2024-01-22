@@ -54,6 +54,39 @@ Method ModificarCita(pRequest As cysnet.clinicaDental.agenda.msg.ModificarCitaRe
   Return $$$OK
 }
 
+Method ListarCitas(pRequest As cysnet.clinicaDental.agenda.msg.ListarCitasRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.ListarCitasResponse) As %Status
+{
+    Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.ListarCitasResponse).%New()
+
+    Set pResponse.citas = ##class(%ListOfObjects).%New()
+
+    Set stm = ##class(%SQL.Statement).%New()
+
+    if (pRequest.mostrarCanceladas = 1){
+      Set where = " AND codEstado <> 4"
+    }
+      else{
+      Set where = ""
+    }
+
+    Do stm.%Prepare("select idPaciente, descCita, fechaCita, codEstado from cysnet_clinicaDental_agenda_data.Citas  where idPaciente  = ? "_where)
+
+    Set rs = stm.%Execute(pRequest.idPaciente)
+
+    While rs.%Next() {
+        Set cita = ##class(cysnet.clinicaDental.agenda.data.Citas).%New()
+        // Set paciente.idPaciente = rs.ID
+        Set cita.idPaciente = rs.idPaciente
+        Set cita.descCita = rs.descCita
+        Set cita.fechaCita = rs.fechaCita
+        Set cita.codEstado = rs.codEstado
+        Do pResponse.citas.Insert(cita)
+        kill cita
+    }
+
+    Quit $$$OK
+}
+
 XData MessageMap
 {
 <MapItems>
@@ -65,6 +98,9 @@ XData MessageMap
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ModificarCitaRequest">
         <Method>ModificarCita</Method>
+    </MapItem>
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ListarCitasRequest">
+        <Method>ListarCitas</Method>
     </MapItem>
 </MapItems>
 }
