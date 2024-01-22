@@ -40,6 +40,20 @@ Method altaCitas(pRequest As cysnet.clinicaDental.agenda.msg.AltaCitasRequest, O
     quit sc
 }
 
+/// actualizar el paciente
+Method ModificarCita(pRequest As cysnet.clinicaDental.agenda.msg.ModificarCitaRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.ModificarCitaResponse) As %Status
+{
+  #dim stm As %SQL.Statement
+  #dim rs As %SQL.StatementResult
+  
+  Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.ModificarCitaResponse).%New()
+  Set pResponse.mensaje = "Se actualiza ID:"_pRequest.ID
+  
+  &sql(UPDATE cysnet_clinicaDental_agenda_data.Citas SET fechaCita = :pRequest.fechaCita where id = :pRequest.ID)
+  
+  Return $$$OK
+}
+
 XData MessageMap
 {
 <MapItems>
@@ -48,6 +62,9 @@ XData MessageMap
     </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.AltaCitasRequest">
         <Method>altaCitas</Method>
+    </MapItem>
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ModificarCitaRequest">
+        <Method>ModificarCita</Method>
     </MapItem>
 </MapItems>
 }

@@ -38,4 +38,18 @@ Method altaCitas(idPaciente As %Integer, descCita As %String, fechaCita As %Time
 	Quit rsp
 }
 
+Method ModificarCita(idCita As %Integer, fechaCita As %TimeStamp) As cysnet.clinicaDental.agenda.msg.ModificarCitaResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.ModificarCitaRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.ModificarCitaResponse
+	
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.ModificarCitaRequest).%New()
+  Set req.ID = idCita
+  Set req.fechaCita = fechaCita
+	
+	Do ..SendRequestSync("CitasSQL", req, .rsp)
+	
+	Quit rsp
+}
+
 }
