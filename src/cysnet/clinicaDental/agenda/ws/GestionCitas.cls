@@ -79,4 +79,17 @@ Method AdmitirPaciente(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.Ad
 	Quit rsp
 }
 
+Method AltaPaciente(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.AltaPacienteResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.AltaPacienteRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.AltaPacienteResponse
+	
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.AltaPacienteRequest).%New()
+  Set req.idCita = idCita
+	
+	Do ..SendRequestSync("AltasSQL", req, .rsp)
+	
+	Quit rsp
+}
+
 }

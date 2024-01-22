@@ -1,7 +1,7 @@
 Class cysnet.clinicaDental.agenda.bo.AdmisionesSQL Extends Ens.BusinessOperation
 {
 
-/// actualizar el paciente
+/// admitir el paciente
 Method AdmitirPaciente(pRequest As cysnet.clinicaDental.agenda.msg.AdmitirPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.AdmitirPacienteResponse) As %Status
 {
   #dim stm As %SQL.Statement
@@ -10,7 +10,7 @@ Method AdmitirPaciente(pRequest As cysnet.clinicaDental.agenda.msg.AdmitirPacien
   Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.AdmitirPacienteResponse).%New()
   
   Set stm = ##class(%SQL.Statement).%New()
-  Do stm.%Prepare("SELECT ID FROM cysnet_clinicaDental_agenda_data.Admisiones WHERE idCita = ? ")
+  Do stm.%Prepare("SELECT ID FROM cysnet_clinicaDental_agenda_data.Admisiones WHERE idCita = ?")
 
   Set rs = stm.%Execute(pRequest.idCita)
   If (rs.%Next()) {
