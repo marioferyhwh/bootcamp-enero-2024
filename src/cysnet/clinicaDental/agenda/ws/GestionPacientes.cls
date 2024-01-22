@@ -21,7 +21,7 @@ Method NuevoPaciente(nombre As %String, apellidos As %String, email As %String) 
 	Set req.email = email
 	Set req.nombre = nombre
 	
-	Do ..SendRequestSync("PacientesSQL", req, .rsp)
+	Do ..SendRequestSync("ProcesoPacientes", req, .rsp)
 	
 	Quit rsp
 }
