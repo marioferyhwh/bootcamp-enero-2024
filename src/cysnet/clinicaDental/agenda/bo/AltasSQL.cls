@@ -17,13 +17,13 @@ Method ExisteAdmision(idCita As %Integer) As %Boolean
 Method AltaPaciente(pRequest As cysnet.clinicaDental.agenda.msg.AltaPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.AltaPacienteResponse) As %Status
 {
   Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.AltaPacienteResponse).%New()
-  
+
   If (..ExisteAdmision(pRequest.idCita)) {
-    Set pResponse.mensaje = "No existe un admicion vigente para la cita :"_pRequest.idCita
-  } Else {
-    Set pResponse.mensaje = "Se crea admision"
+    Set pResponse.mensaje = "Se da de alta para la cita :"_pRequest.idCita
     &sql(INSERT INTO cysnet_clinicaDental_agenda_data.Altas (idCita,fechaAlta,indEnviada)
     VALUES (:pRequest.idCita,now(),0))
+  } Else {
+    Set pResponse.mensaje = "No existe un admicion vigente para la cita :"_pRequest.idCita
   }
   Return $$$OK
 }
