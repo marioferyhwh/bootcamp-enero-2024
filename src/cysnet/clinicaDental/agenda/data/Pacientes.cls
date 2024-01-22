@@ -1,4 +1,4 @@
-Class cysnet.clinicaDental.agenda.data.Pacientes Extends %Persistent
+Class cysnet.clinicaDental.agenda.data.Pacientes Extends (%Persistent, %XML.Adaptor)
 {
 
 Property nombre As %String;

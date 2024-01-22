@@ -58,8 +58,22 @@ Method ModificarPaciente(ID As %Integer, nombre As %String, apellidos As %String
 	Quit rsp
 }
 
+/// Método para listar todos los pacientes
+Method ListarPacientes(mostrarBajas As %Boolean) As cysnet.clinicaDental.agenda.msg.ListarPacientesResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.ListarPacientesRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.ListarPacientesResponse
+
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.ListarPacientesRequest).%New()
+  Set req.mostrarBajas = mostrarBajas
+
+	Do ..SendRequestSync("PacientesSQL", req, .rsp)
+
+	Quit rsp
+}
+
 /// Método que obtiene los datos de un paciente a partir de su ID
-Method buscarPacientePorID(idPaciente As %Integer) As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse [ WebMethod ]
+Method BuscarPacientePorID(idPaciente As %Integer) As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse [ WebMethod ]
 {
 	#dim req As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest
 	#dim rsp As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse

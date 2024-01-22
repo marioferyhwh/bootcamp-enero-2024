@@ -57,7 +57,45 @@ Method ModificarPaciente(pRequest As cysnet.clinicaDental.agenda.msg.ModificarPa
 }
 
 /// Método que obtiene los datos de un paciente a partir de su ID
-Method buscarPacientePorID(pRequest As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse) As %Status
+Method ListarPacientes(pRequest As cysnet.clinicaDental.agenda.msg.ListarPacientesRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.ListarPacientesResponse) As %Status
+{
+    Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.ListarPacientesResponse).%New()
+
+    Set pacientes = ##class(%ListOfObjects).%New()
+
+    Set stm = ##class(%SQL.Statement).%New()
+
+    if (pRequest.mostrarBajas = 1){
+      Set where = ""
+    }
+      else{
+      Set where = " WHERE  baja = 0"
+    }
+
+    Do stm.%Prepare("SELECT ID, nombre, apellidos, email, baja, permiteNotificaciones FROM cysnet_clinicaDental_agenda_data.Pacientes "_where)
+
+    Set rs = stm.%Execute()
+
+    While rs.%Next() {
+        Set paciente = ##class(cysnet.clinicaDental.agenda.data.Pacientes).%New()
+        // Set paciente.idPaciente = rs.ID
+        Set paciente.nombre = rs.nombre
+        Set paciente.apellidos = rs.apellidos
+        Set paciente.email = rs.email
+        Set paciente.baja = rs.baja
+        Set paciente.permiteNotificaciones = rs.permiteNotificaciones
+        Do pacientes.Insert(paciente)
+        kill paciente
+    }
+    $$$LOGINFO(pacientes)
+
+    Set pResponse.pacientes = pacientes
+
+    Quit $$$OK
+}
+
+/// Método que obtiene los datos de un paciente a partir de su ID
+Method BuscarPacientePorID(pRequest As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse) As %Status
 {
     Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDResponse).%New()
 
@@ -94,8 +132,11 @@ XData MessageMap
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ModificarPacienteRequest">
         <Method>ModificarPaciente</Method>
     </MapItem>
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.ListarPacientesRequest">
+        <Method>ListarPacientes</Method>
+    </MapItem>
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.BuscarPacientePorIDRequest">
-        <Method>buscarPacientePorID</Method>
+        <Method>BuscarPacientePorID</Method>
     </MapItem>
 
 </MapItems>
