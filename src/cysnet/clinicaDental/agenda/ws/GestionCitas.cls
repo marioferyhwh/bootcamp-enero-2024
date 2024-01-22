@@ -23,10 +23,10 @@ Method cancelarCita(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.Cance
 	quit response
 }
 
-Method altaCitas(idPaciente As %Integer, descCita As %String, fechaCita As %TimeStamp) As cysnet.clinicaDental.agenda.msg.AltaCitasRespose [ WebMethod ]
+Method altaCitas(idPaciente As %Integer, descCita As %String, fechaCita As %TimeStamp) As cysnet.clinicaDental.agenda.msg.AltaCitasResponse [ WebMethod ]
 {
 	#dim req As cysnet.clinicaDental.agenda.msg.AltaCitasRequest
-	#dim rsp As cysnet.clinicaDental.agenda.msg.AltaCitasRespose
+	#dim rsp As cysnet.clinicaDental.agenda.msg.AltaCitasResponse
 	
 	Set req = ##class(cysnet.clinicaDental.agenda.msg.AltaCitasRequest).%New()
 	Set req.idPaciente = idPaciente

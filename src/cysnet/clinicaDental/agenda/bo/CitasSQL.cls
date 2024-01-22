@@ -20,7 +20,7 @@ Method cancelarCita(pRequest As cysnet.clinicaDental.agenda.msg.CancelarCitaRequ
     quit $$$OK
 }
 
-Method altaCitas(pRequest As cysnet.clinicaDental.agenda.msg.AltaCitasRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.AltaCitasRespose) As %Status
+Method altaCitas(pRequest As cysnet.clinicaDental.agenda.msg.AltaCitasRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.AltaCitasResponse) As %Status
 {
     #dim sc As %Status = $$$OK
 
@@ -31,13 +31,13 @@ Method altaCitas(pRequest As cysnet.clinicaDental.agenda.msg.AltaCitasRequest, O
     If (rs.%Next(.sc)) {
       Quit sc
     }
-   
+
     Set stm = ##class(%SQL.Statement).%New()
     do stm.%Prepare("INSERT INTO cysnet_clinicaDental_agenda_data.Citas (idPaciente, descCita, fechaCita, codEstado) VALUES (?,?,?,?) ")
     Set rs = stm.%Execute(pRequest.idPaciente, pRequest.descCita, pRequest.fechaCita, 1)
 
-        set rs = stm.%Execute()
-        quit sc
+    set rs = stm.%Execute()
+    quit sc
 }
 
 XData MessageMap
@@ -46,7 +46,7 @@ XData MessageMap
     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.CancelarCitaRequest">
         <Method>cancelarCita</Method>
     </MapItem>
-     <MapItem MessageType="cysnet.clinicaDental.agenda.msg.AltaCitasRequest">
+    <MapItem MessageType="cysnet.clinicaDental.agenda.msg.AltaCitasRequest">
         <Method>altaCitas</Method>
     </MapItem>
 </MapItems>
