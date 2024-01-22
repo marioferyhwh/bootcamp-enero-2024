@@ -1,19 +1,24 @@
 Class cysnet.clinicaDental.agenda.bo.AltasSQL Extends Ens.BusinessOperation
 {
 
+Method ExisteAdmision(idCita As %Integer) As %Boolean
+{
+    #dim stm As %SQL.Statement
+    #dim rs As %SQL.StatementResult
+
+    Set stm = ##class(%SQL.Statement).%New()
+    Do stm.%Prepare("SELECT ID FROM cysnet_clinicaDental_agenda_data.Admisiones WHERE idCita = ?")
+
+    Set rs = stm.%Execute(idCita)
+    Return rs.%Next()
+}
+
 /// dar de alta  el paciente
 Method AltaPaciente(pRequest As cysnet.clinicaDental.agenda.msg.AltaPacienteRequest, Output pResponse As cysnet.clinicaDental.agenda.msg.AltaPacienteResponse) As %Status
 {
-  #dim stm As %SQL.Statement
-  #dim rs As %SQL.StatementResult
-  
   Set pResponse = ##class(cysnet.clinicaDental.agenda.msg.AltaPacienteResponse).%New()
   
-  Set stm = ##class(%SQL.Statement).%New()
-  Do stm.%Prepare("SELECT ID FROM cysnet_clinicaDental_agenda_data.Admisiones WHERE idCita = ? ")
-
-  Set rs = stm.%Execute(pRequest.idCita)
-  If (rs.%Next()) {
+  If (..ExisteAdmision(pRequest.idCita)) {
     Set pResponse.mensaje = "No existe un admicion vigente para la cita :"_pRequest.idCita
   } Else {
     Set pResponse.mensaje = "Se crea admision"
