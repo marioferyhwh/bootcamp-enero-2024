@@ -66,4 +66,17 @@ Method ListarCitas(idPaciente As %Integer, mostrarCanceladas As %Boolean) As cys
 	Quit rsp
 }
 
+Method AdmitirPaciente(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.AdmitirPacienteResponse [ WebMethod ]
+{
+	#dim req As cysnet.clinicaDental.agenda.msg.AdmitirPacienteRequest
+	#dim rsp As cysnet.clinicaDental.agenda.msg.AdmitirPacienteResponse
+	
+	Set req = ##class(cysnet.clinicaDental.agenda.msg.AdmitirPacienteRequest).%New()
+  Set req.idCita = idCita
+	
+	Do ..SendRequestSync("AdmisionesSQL", req, .rsp)
+	
+	Quit rsp
+}
+
 }
