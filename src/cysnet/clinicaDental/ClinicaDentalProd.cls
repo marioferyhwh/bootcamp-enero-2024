@@ -24,6 +24,8 @@ XData ProductionDefinition
   </Item>
   <Item Name="ProcesoPacientes" Category="" ClassName="cysnet.clinicaDental.agenda.bp.ProcesoPacientes" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
+  <Item Name="ProcesoAdmisionesCodigo" Category="" ClassName="cysnet.clinicaDental.agenda.bp.ProcesoAdmisionesCodigo" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
 </Production>
 }
 

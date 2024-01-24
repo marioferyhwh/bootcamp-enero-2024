@@ -74,7 +74,7 @@ Method AdmitirPaciente(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.Ad
 	Set req = ##class(cysnet.clinicaDental.agenda.msg.AdmitirPacienteRequest).%New()
   Set req.idCita = idCita
 	
-	Do ..SendRequestSync("AdmisionesSQL", req, .rsp)
+	Do ..SendRequestSync("ProcesoAdmisionesCodigo", req, .rsp)
 	
 	Quit rsp
 }
@@ -87,7 +87,7 @@ Method AltaPaciente(idCita As %Integer) As cysnet.clinicaDental.agenda.msg.AltaP
 	Set req = ##class(cysnet.clinicaDental.agenda.msg.AltaPacienteRequest).%New()
   Set req.idCita = idCita
 	
-	Do ..SendRequestSync("AltasSQL", req, .rsp)
+	Do ..SendRequestSync("ProcesoAdmisionesCodigo", req, .rsp)
 	
 	Quit rsp
 }
